@@ -4,5 +4,5 @@ var questionBook = [["You can use the _______ function to find out if an express
 
 var answerBook = [["Boolean", "Took", "Number", "String"],  //1
                   ["Boolean", "Took", "Number", "String"],  //4
-                  ["Boolean", "Took", "Number", "String"],] //3
+                  ["Boolean", "Took", "Number", "String"]]  //3
 

@@ -1,9 +1,11 @@
-
+// timer element
 var timerInput = document.getElementById("time");
 var addBtn = document.getElementById("start");
 
+// time
 timerInput.textContent = 100 ;
 
+// timer function
 function countDown() {
     
     timerInput.textContent -= 1;
@@ -17,4 +19,22 @@ function countDown() {
     return;
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// call the funtion
 addBtn.addEventListener("click", countDown);

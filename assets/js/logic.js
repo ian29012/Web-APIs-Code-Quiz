@@ -1,17 +1,17 @@
 // timer section
-var timerInput = document.getElementById("time");
-var startScreen = document.getElementById("start-screen");
-var addBtn = document.getElementById("start");
+var timerInput = document.querySelector("#time");
+var startScreen = document.querySelector("#start-screen");
+var addBtn = document.querySelector("#start");
 // question section
-var questions = document.getElementById("questions")
-var questionTitle = document.getElementById("question-title");
-var choices = document.getElementById("choices");
-var feedBack = document.getElementById("feedback");
+var questions = document.querySelector("#questions")
+var questionTitle = document.querySelector("#question-title");
+var choices = document.querySelector("#choices");
+var feedBack = document.querySelector("#feedback");
 // score section
-var endScreen = document.getElementById("end-screen");
-var score = document.getElementById("final-score");
-var initialsInput = document.getElementById("initials");
-var submitBtn = document.getElementById("submit");
+var endScreen = document.querySelector("#end-screen");
+var score = document.querySelector("#final-score");
+var initialsInput = document.querySelector("#initials");
+var submitBtn = document.querySelector("#submit");
 
 
 var questionBook = ["You can use the _______ function to find out if an expression (or a variable) is true",
@@ -24,10 +24,14 @@ var answerBook = [["Boolean", "Took", "Number", "String"],  //1
 
 var correctAnswer = ["Boolean", "String", "Number"];
 
+// Set up the sound
+var correctSound = new Audio("./assets/sfx/correct.wav");
+var incorrectSound = new Audio("./assets/sfx/incorrect.wav");
+
 // test                
-console.log(questionBook[0]);
-console.log(answerBook[0][0]);
-console.log(correctAnswer[0]);
+// console.log(questionBook[0]);
+// console.log(answerBook[0][0]);
+// console.log(correctAnswer[0]);
 
 // time
 timerInput.textContent = 100 ;
@@ -44,11 +48,24 @@ function countDown() {
         }
 };
 
-var startState = startScreen.getAttribute("class")
-var questionState = questions.getAttribute("class")
+var startState = startScreen.getAttribute("class");
+var questionState = questions.getAttribute("class");
+var questionindexNumber = 0 ;
+var markScore = 0 ;
 
 // Question
-function question(question, answer, correct) {
+
+function askQuestion() {
+    showQuestion(questionindexNumber)
+};
+
+function showQuestion(questionNumber) {
+
+     //clear the page 
+    while (choices.hasChildNodes()) {
+           choices.removeChild(choices.firstChild);
+           questionTitle.textContent = "";
+        }
 
    // hidden the start page and show the question
   if ( startState === "start"){
@@ -60,19 +77,21 @@ function question(question, answer, correct) {
     questions.setAttribute("class", "show");
 
     //display the question
-    questionTitle.textContent = questionBook[0];
+    questionTitle.textContent = questionBook[questionNumber];
 
     var loopAnswerOl = document.createElement("ol");
 
     // use for loop to display the choices
-    for ( var i = 0; i < answerBook[0].length; i++){
+    for ( var i = 0; i < answerBook[questionNumber].length; i++){
         var loopAnswerLi = document.createElement("li");
         var answerBtn = document.createElement("Button")
-        answerBtn.textContent = answerBook[0][i];
+        answerBtn.textContent = answerBook[questionNumber][i];
         choices.appendChild(loopAnswerOl);
         loopAnswerOl.appendChild(loopAnswerLi);
         loopAnswerLi.appendChild(answerBtn);
     }
+  }
+};
   // add score and next question when correct / subtracted the time when incorrect
 choices.addEventListener("click", function(event) {
     var element = event.target;
@@ -80,21 +99,40 @@ choices.addEventListener("click", function(event) {
     if (element.matches("button")){
     var answerBtntext = event.target.textContent;
     // console.log(answerBtntext[1].innerHTML)
-    if ( answerBtntext == correctAnswer[0]){
-        console.log("hi")
+    
+    // display feedBack
+    feedBack.class = "feedback";
+    feedBack.setAttribute("class", "feedback");
+
+    if ( answerBtntext == correctAnswer[questionindexNumber]){
+        markScore += 10;
+        correctSound.play();
+        console.log("correct") ;
+        nextQuestion();
+        feedBack.textContent = "Correct!!";
     } else { 
-        console.log("bye")
+        timerInput.textContent -= 15 ;
+        incorrectSound.play();
+        console.log("wrong");
+        feedBack.textContent = "Wrong and time is subtracted from the clock"
+        
     }
-
-      }
-     });
-    };
-   };
- 
+    }
+    });
 
 
+  // nextQuestion
+  function nextQuestion() {
+    questionindexNumber++ ;
+  if ( questionindexNumber == questionindexNumber.length ){
+    endgame()
+  } else { 
+    console.log(questionindexNumber);
+    askQuestion(questionindexNumber)
+  } 
+ }
 
 
 // call the funtion
 addBtn.addEventListener("click", countDown);
-addBtn.addEventListener("click", question);
+addBtn.addEventListener("click", askQuestion);

@@ -64,7 +64,7 @@ function question(question, answer, correct) {
 
     var loopAnswerOl = document.createElement("ol");
 
-    // use for loop to display the answer
+    // use for loop to display the choices
     for ( var i = 0; i < answerBook[0].length; i++){
         var loopAnswerLi = document.createElement("li");
         var answerBtn = document.createElement("Button")
@@ -72,11 +72,25 @@ function question(question, answer, correct) {
         choices.appendChild(loopAnswerOl);
         loopAnswerOl.appendChild(loopAnswerLi);
         loopAnswerLi.appendChild(answerBtn);
+    }
+  // add score and next question when correct / subtracted the time when incorrect
+choices.addEventListener("click", function(event) {
+    var element = event.target;
+    event.preventDefault()
+    if (element.matches("button")){
+    var answerBtntext = event.target.textContent;
+    // console.log(answerBtntext[1].innerHTML)
+    if ( answerBtntext == correctAnswer[0]){
+        console.log("hi")
+    } else { 
+        console.log("bye")
+    }
+
       }
- };
-};
-
-
+     });
+    };
+   };
+ 
 
 
 

@@ -14,7 +14,7 @@ function reviewScore() {
 }
 reviewScore();
 
-// Create listener for "Clear Highscore Button"
+// clear button controller
 function clear() {
 
     localStorage.clear();

@@ -13,15 +13,15 @@ var scoreID = document.querySelector("#final-score");
 var initialsInput = document.querySelector("#initials");
 var submitBtn = document.querySelector("#submit");
 
-
+// question
 var questionBook = ["You can use the _______ function to find out if an expression (or a variable) is true",
                     "JavaScript _______ are for storing and manipulating text",
                     "________ Represents both integer and floating-point values"];
-
+// answer
 var answerBook = [["Boolean", "Took", "Number", "String"],  //1
                   ["Boolean", "Took", "Number", "String"],  //4
                   ["Boolean", "Took", "Number", "String"]];  //3
-
+// correct answer
 var correctAnswer = ["Boolean", "String", "Number"];
 
 // Set up the sound
@@ -51,13 +51,13 @@ function countDown() {
         }
 };
 
+// Score and the queation number setup
 var startState = startScreenID.getAttribute("class");
 var questionindexNumber = 0 ;
 var markScore = 0 ;
 var fullScore = 99 ;
 
-// Question
-
+// Question controller || i not know why can't directly execute when i click it
 function askQuestion() {
   if ( markScore == fullScore ){
 
@@ -69,6 +69,7 @@ function askQuestion() {
   }
 };
 
+// Question display
 function showQuestion(questionNumber) {
 
      //clear the page 
@@ -104,7 +105,6 @@ function showQuestion(questionNumber) {
 choices.addEventListener("click", function(event) {
     var element = event.target;
     event.preventDefault()
-
     if (element.matches("button")){
     var answerBtntext = event.target.textContent;
     // console.log(answerBtntext[1].innerHTML)
@@ -145,10 +145,10 @@ function submitName(){
   var score = localStorage.getItem("score")
   var yourScore = JSON.parse(score) || [];
 
-    // Add the current score to the array
+    // Add the score to the array
     yourScore.push(initialsInput.value + ": " + markScore);
 
-    //Get values from page and add them to localStorage
+    //add the values to localStorage
     localStorage.setItem("score", JSON.stringify(yourScore));
 
     location.href="highscores.html"

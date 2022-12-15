@@ -1,14 +1,14 @@
 // timer section
 var timerInput = document.querySelector("#time");
-var startScreen = document.querySelector("#start-screen");
+var startScreenID = document.querySelector("#start-screen");
 var addBtn = document.querySelector("#start");
 // question section
-var questions = document.querySelector("#questions")
+var questionsID = document.querySelector("#questions")
 var questionTitle = document.querySelector("#question-title");
 var choices = document.querySelector("#choices");
 var feedBack = document.querySelector("#feedback");
 // score section
-var endScreen = document.querySelector("#end-screen");
+var endScreenID = document.querySelector("#end-screen");
 var score = document.querySelector("#final-score");
 var initialsInput = document.querySelector("#initials");
 var submitBtn = document.querySelector("#submit");
@@ -43,20 +43,29 @@ function countDown() {
     
     setTimeout("countDown()",1000);
     
-    if ( timerInput.textContent == 0){
-        location.href = "highscores.html";
+    if ( timerInput.textContent <= 0){
+      questionsID.setAttribute("class", "hide");
+      endScreenID.setAttribute("class", "start");
+      feedBack.setAttribute("class", "hide");
         }
 };
 
-var startState = startScreen.getAttribute("class");
-var questionState = questions.getAttribute("class");
+var startState = startScreenID.getAttribute("class");
 var questionindexNumber = 0 ;
 var markScore = 0 ;
+var fullScore = 30 ;
 
 // Question
 
 function askQuestion() {
+  if ( markScore == fullScore ){
+
+    endPage()
+
+  } else {
+
     showQuestion(questionindexNumber)
+  }
 };
 
 function showQuestion(questionNumber) {
@@ -69,12 +78,10 @@ function showQuestion(questionNumber) {
 
    // hidden the start page and show the question
   if ( startState === "start"){
-    startState.class = "hide";
-    startScreen.setAttribute("class", "hide");
+    startScreenID.setAttribute("class", "hide");
 
     // display question page
-    questionState.class = "show";
-    questions.setAttribute("class", "show");
+    questionsID.setAttribute("class", "show");
 
     //display the question
     questionTitle.textContent = questionBook[questionNumber];
@@ -96,6 +103,7 @@ function showQuestion(questionNumber) {
 choices.addEventListener("click", function(event) {
     var element = event.target;
     event.preventDefault()
+
     if (element.matches("button")){
     var answerBtntext = event.target.textContent;
     // console.log(answerBtntext[1].innerHTML)
@@ -105,34 +113,39 @@ choices.addEventListener("click", function(event) {
     feedBack.setAttribute("class", "feedback");
 
     if ( answerBtntext == correctAnswer[questionindexNumber]){
+        questionindexNumber++ ;
         markScore += 10;
         correctSound.play();
         console.log("correct") ;
-        nextQuestion();
-        feedBack.textContent = "Correct!!";
+        console.log(markScore) ;
+        feedBack.textContent = "Correct!! + 10Score";
+        askQuestion(questionindexNumber);
     } else { 
         timerInput.textContent -= 15 ;
         incorrectSound.play();
         console.log("wrong");
-        feedBack.textContent = "Wrong and time is subtracted from the clock"
+        feedBack.textContent = "Wrong Answer and time - 15s"
         
     }
     }
     });
+  
+// Endpage 
+function endPage(){
 
+  questionsID.setAttribute("class", "hide");
+  endScreenID.setAttribute("class", "start");
+  feedBack.setAttribute("class", "hide");
+  timerInput.textContent = 0
 
-  // nextQuestion
-  function nextQuestion() {
-    questionindexNumber++ ;
-  if ( questionindexNumber == questionindexNumber.length ){
-    endgame()
-  } else { 
-    console.log(questionindexNumber);
-    askQuestion(questionindexNumber)
-  } 
- }
+};
+
+function submitName(){
+  
+}
 
 
 // call the funtion
 addBtn.addEventListener("click", countDown);
 addBtn.addEventListener("click", askQuestion);
+submitBtn.addEventListener("click", submitName);

@@ -9,7 +9,7 @@ var choices = document.querySelector("#choices");
 var feedBack = document.querySelector("#feedback");
 // score section
 var endScreenID = document.querySelector("#end-screen");
-var score = document.querySelector("#final-score");
+var scoreID = document.querySelector("#final-score");
 var initialsInput = document.querySelector("#initials");
 var submitBtn = document.querySelector("#submit");
 
@@ -47,13 +47,14 @@ function countDown() {
       questionsID.setAttribute("class", "hide");
       endScreenID.setAttribute("class", "start");
       feedBack.setAttribute("class", "hide");
+      scoreID.textContent = markScore
         }
 };
 
 var startState = startScreenID.getAttribute("class");
 var questionindexNumber = 0 ;
 var markScore = 0 ;
-var fullScore = 30 ;
+var fullScore = 99 ;
 
 // Question
 
@@ -114,17 +115,17 @@ choices.addEventListener("click", function(event) {
 
     if ( answerBtntext == correctAnswer[questionindexNumber]){
         questionindexNumber++ ;
-        markScore += 10;
+        markScore += 33;
         correctSound.play();
         console.log("correct") ;
         console.log(markScore) ;
-        feedBack.textContent = "Correct!! + 10Score";
+        feedBack.textContent = "Correct!! + 33Score";
         askQuestion(questionindexNumber);
     } else { 
-        timerInput.textContent -= 15 ;
+        timerInput.textContent -= 30 ;
         incorrectSound.play();
         console.log("wrong");
-        feedBack.textContent = "Wrong Answer and time - 15s"
+        feedBack.textContent = "Wrong Answer and time - 30s"
         
     }
     }
@@ -137,11 +138,20 @@ function endPage(){
   endScreenID.setAttribute("class", "start");
   feedBack.setAttribute("class", "hide");
   timerInput.textContent = 0
-
+  scoreID.textContent = markScore
 };
 
 function submitName(){
-  
+  var score = localStorage.getItem("score")
+  var yourScore = JSON.parse(score) || [];
+
+    // Add the current score to the array
+    yourScore.push(initialsInput.value + ": " + markScore);
+
+    //Get values from page and add them to localStorage
+    localStorage.setItem("score", JSON.stringify(yourScore));
+
+    location.href="highscores.html"
 }
 
 

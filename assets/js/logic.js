@@ -13,17 +13,6 @@ var scoreID = document.querySelector("#final-score");
 var initialsInput = document.querySelector("#initials");
 var submitBtn = document.querySelector("#submit");
 
-// question
-var questionBook = ["You can use the _______ function to find out if an expression (or a variable) is true",
-                    "JavaScript _______ are for storing and manipulating text",
-                    "________ Represents both integer and floating-point values"];
-// answer
-var answerBook = [["Boolean", "Took", "Number", "String"],  //1
-                  ["Boolean", "Took", "Number", "String"],  //4
-                  ["Boolean", "Took", "Number", "String"]];  //3
-// correct answer
-var correctAnswer = ["Boolean", "String", "Number"];
-
 // Set up the sound
 var correctSound = new Audio("./assets/sfx/correct.wav");
 var incorrectSound = new Audio("./assets/sfx/incorrect.wav");
@@ -37,20 +26,21 @@ var incorrectSound = new Audio("./assets/sfx/incorrect.wav");
 timerInput.textContent = 100 ;
 
 // timer function
-function countDown() {
+function setTime() {
+  var timerInterval = setInterval(function countDown() {
     
     timerInput.textContent -= 1;
-    
-    setTimeout("countDown()",1000);
     
     if ( timerInput.textContent <= 0){
       questionsID.setAttribute("class", "hide");
       endScreenID.setAttribute("class", "start");
       feedBack.setAttribute("class", "hide");
-      scoreID.textContent = markScore
+      scoreID.textContent = markScore;
+      timerInput.textContent = 0;
+      clearInterval(timerInterval);
         }
-};
-
+}, 1000);
+}
 // Score and the queation number setup
 var startState = startScreenID.getAttribute("class");
 var questionindexNumber = 0 ;
@@ -156,6 +146,6 @@ function submitName(){
 
 
 // call the funtion
-addBtn.addEventListener("click", countDown);
+addBtn.addEventListener("click", setTime);
 addBtn.addEventListener("click", askQuestion);
 submitBtn.addEventListener("click", submitName);

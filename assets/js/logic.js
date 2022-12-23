@@ -17,11 +17,6 @@ var submitBtn = document.querySelector("#submit");
 var correctSound = new Audio("./assets/sfx/correct.wav");
 var incorrectSound = new Audio("./assets/sfx/incorrect.wav");
 
-// test                
-// console.log(questionBook[0]);
-// console.log(answerBook[0][0]);
-// console.log(correctAnswer[0]);
-
 // time
 timerInput.textContent = 100 ;
 
@@ -50,11 +45,8 @@ var fullScore = 99 ;
 // Question controller || i not know why can't directly execute when i click it
 function askQuestion() {
   if ( markScore == fullScore ){
-
     endPage()
-
   } else {
-
     showQuestion(questionindexNumber)
   }
 };
@@ -97,7 +89,6 @@ choices.addEventListener("click", function(event) {
     event.preventDefault()
     if (element.matches("button")){
     var answerBtntext = event.target.textContent;
-    // console.log(answerBtntext[1].innerHTML)
     
     // display feedBack
     feedBack.class = "feedback";
@@ -116,14 +107,12 @@ choices.addEventListener("click", function(event) {
         incorrectSound.play();
         console.log("wrong");
         feedBack.textContent = "Wrong Answer and time - 30s"
-        
-    }
-    }
-    });
+      }
+   }
+});
   
 // Endpage 
 function endPage(){
-
   questionsID.setAttribute("class", "hide");
   endScreenID.setAttribute("class", "start");
   feedBack.setAttribute("class", "hide");
@@ -143,7 +132,6 @@ function submitName(){
 
     location.href="highscores.html"
 }
-
 
 // call the funtion
 addBtn.addEventListener("click", setTime);
